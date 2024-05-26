@@ -4,7 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Menu.unity
+    guid: c28ef77911d79054db60ba563b1302c6
+  - enabled: 1
+    path: Assets/Scenes/ar-ttack.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/fabric-reality.unity
+    guid: ab6f48e9ce155504ebff9ddecd8647c6
   m_configObjects:
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: c0280bccddb17b941884ff94d492e41d, type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: b0ba9415142b91a42b6897220e49a64d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 58d09c95ceea1924aa995474d01a3ae8, type: 2}
