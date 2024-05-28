@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 [RequireComponent(typeof(ARRaycastManager))]
-public class ARSaveTexture : MonoBehaviour
+public class ColorfulShadow : MonoBehaviour
 {
+    [SerializeField]
+    AROcclusionManager arHumanOcc;
     [SerializeField]
     ARCameraBackground arCamBg;
     [SerializeField]
@@ -17,6 +19,7 @@ public class ARSaveTexture : MonoBehaviour
     ARRaycastManager raycastManager;
     List<ARRaycastHit> hitResults = new List<ARRaycastHit>();
     RenderTexture capturedTex;
+    RenderTexture humanTex;
     bool saved = false;
     float FovTanValue = 1.0f;
     [SerializeField]
@@ -37,11 +40,8 @@ public class ARSaveTexture : MonoBehaviour
 
     public void SaveTex()
     {
-        if (arCamBg.material != null)
-        {
-            // RenderTextureに deep copy
-            Graphics.Blit(null, capturedTex, arCamBg.material);
-        }
+        Graphics.Blit(null, capturedTex, arCamBg.material);
+        Graphics.Blit(arHumanOcc.humanStencilTexture, capturedTex);
     }
 
     void Update()
@@ -56,24 +56,12 @@ public class ARSaveTexture : MonoBehaviour
                 float aspect = capturedTex.width / (float)capturedTex.height;
                 float height = planeDistance * FovTanValue * 2;
                 float width = height * aspect;
-                plane.transform.localScale = new Vector3(width, height, 1);
+                plane.transform.localScale = new Vector3(height, width, 1);
                 var mat = plane.GetComponentInChildren<Renderer>().material;
                 mat.mainTexture = capturedTex;
-
-                StartCoroutine(EnableGravityAfterSeconds(plane, 3));
+                plane.transform.Rotate(0, 0, -90);
+                plane.transform.Rotate(180, 0, 0);
             }
-        }
-    }
-    IEnumerator EnableGravityAfterSeconds(GameObject plane, float seconds)
-    {
-        // 等待指定的秒数
-        yield return new WaitForSeconds(seconds);
-
-        // 启用Cloth组件的useGravity属性
-        var cloth = plane.GetComponentInChildren<Cloth>();
-        if (cloth != null)
-        {
-            cloth.useGravity = true;
         }
     }
 }

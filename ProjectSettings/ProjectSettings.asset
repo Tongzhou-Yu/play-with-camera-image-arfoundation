@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: yuu
-  productName: PlayWithCameraImageAR
+  productName: fakereal
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -163,7 +163,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    iPhone: com.yuu.PlayWithCameraImageAR
+    iPhone: com.yuu.fakereal
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -493,7 +493,7 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: Required for augmented reality support.
+  cameraUsageDescription: "\u76F8\u673A\u9700\u8981\u88AB\u4F7F\u7528\u4E8E\u6355\u83B7\u771F\u7684\u73B0\u5B9E"
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 

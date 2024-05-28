@@ -47,20 +47,8 @@ Shader "Unlit/TextureBothSide"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // flip the texture along the Y axis
-                float2 flippedUV = float2(i.uv.x, 1 - i.uv.y);
-
-                // calculate the rotation matrix for 180 degrees rotation
-                float2x2 rotationMatrix = float2x2(
-                cos(radians(180)), sin(radians(180)),
-                -sin(radians(180)), cos(radians(180))
-                );
-    // rotate the texture coordinates
-    float2 centeredUV = flippedUV - float2(0.5, 0.5);
-    float2 rotatedUV = mul(rotationMatrix, centeredUV) + float2(0.5, 0.5);
-
-    // sample the texture
-    fixed4 col = tex2D(_MainTex, rotatedUV);
+                // sample the texture
+                fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
