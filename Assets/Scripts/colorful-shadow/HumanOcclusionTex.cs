@@ -14,6 +14,8 @@ public class HumanOcclusionTex : MonoBehaviour
     [SerializeField]
     GameObject planePrefab;
     [SerializeField]
+    Material planeMaterial;
+    [SerializeField]
     float planeDistance;
 
     RenderTexture capturedTex, occlusionTex;
@@ -38,6 +40,8 @@ public class HumanOcclusionTex : MonoBehaviour
 
     public void SaveTex()
     {
+        capturedTex = Instantiate(capturedTex);
+        occlusionTex = Instantiate(occlusionTex);
         if (arCamBg.material != null)
         {
             // RenderTextureに deep copy
@@ -59,10 +63,16 @@ public class HumanOcclusionTex : MonoBehaviour
                 float height = planeDistance * FovTanValue * 2;
                 float width = height * aspect;
                 plane.transform.localScale = new Vector3(width, height, 1);
-                var mat = plane.GetComponentInChildren<Renderer>().material;
+                var renderer = plane.GetComponentInChildren<Renderer>();
+
+                // Create a new material instance
+                var mat = new Material(planeMaterial);
 
                 mat.SetTexture("_MainTex", capturedTex);
                 mat.SetTexture("_MaskTex", occlusionTex);
+
+                // Assign the new material to the renderer
+                renderer.material = mat;
             }
         }
     }

@@ -1,21 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+
+[System.Serializable]
+public class ButtonPrefabMapping
+{
+    public Button button;
+    public GameObject shapeObject;
+}
 
 [RequireComponent(typeof(ARRaycastManager))]
 public class ArPlaneController : MonoBehaviour
 {
-    [SerializeField] private GameObject planeObject;
+    [SerializeField] private List<ButtonPrefabMapping> mappings;
     [SerializeField] private ARCameraBackground arCameraBackground;
     [SerializeField] private RenderTexture renderTexture;
     private GameObject generateObject;
     private ARRaycastManager raycastManager;
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    private GameObject planeObject;
 
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
+        foreach (var mapping in mappings)
+        {
+            mapping.button.onClick.AddListener(() => SetPrefab(mapping.shapeObject));
+        }
     }
 
     void Update()
@@ -31,16 +44,6 @@ public class ArPlaneController : MonoBehaviour
             {
                 var hitPose = hits[0].pose;
                 generateObject = Instantiate(planeObject, hitPose.position, hitPose.rotation);
-                /*
-                if (generateObject)
-                {
-                    generateObject.transform.position = hitPose.position;
-                }
-                else
-                {
-                    generateObject = Instantiate(planeObject, hitPose.position, Quaternion.identity);
-                }
-                */
             }
         }
     }
@@ -48,5 +51,10 @@ public class ArPlaneController : MonoBehaviour
     private void UpdateObjectTexture()
     {
         Graphics.Blit(null, renderTexture, arCameraBackground.material);
+    }
+
+    public void SetPrefab(GameObject shapeObject)
+    {
+        planeObject = shapeObject;
     }
 }
