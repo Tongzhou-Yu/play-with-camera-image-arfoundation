@@ -364,8 +364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b15f82cc229284894964d2d30806969d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HumanSegmentationStencilMode: 1
-  m_HumanSegmentationDepthMode: 1
+  m_HumanSegmentationStencilMode: 3
+  m_HumanSegmentationDepthMode: 0
   m_EnvironmentDepthMode: 0
   m_EnvironmentDepthTemporalSmoothing: 1
   m_OcclusionPreferenceMode: 1
@@ -533,7 +533,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'fabric-reality: your reality is just a texture'
+  m_Text: 'colorful-shadow: capture and cut human'
 --- !u!222 &522572956
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -916,10 +916,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1387004539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee9b3a09394be0344b570b84b5d3d188, type: 3}
+  m_Script: {fileID: 11500000, guid: 94753811cbd607645938beed71f1cd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arCamBg: {fileID: 244439166}
+  arCamBg: {fileID: 244439162}
+  arOccBg: {fileID: 244439166}
   planePrefab: {fileID: 6149943298057334245, guid: 81f9967a1e8f3714c8679fc2df65d981, type: 3}
   planeDistance: 1
   FovRatio: 1.1

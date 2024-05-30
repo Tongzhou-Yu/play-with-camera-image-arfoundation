@@ -5,21 +5,19 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 [RequireComponent(typeof(ARRaycastManager))]
-public class ColorfulShadow : MonoBehaviour
+public class HumanOcclusionTex : MonoBehaviour
 {
     [SerializeField]
-    AROcclusionManager arHumanOcc;
-    [SerializeField]
     ARCameraBackground arCamBg;
+    [SerializeField]
+    AROcclusionManager arOccBg;
     [SerializeField]
     GameObject planePrefab;
     [SerializeField]
     float planeDistance;
 
-    ARRaycastManager raycastManager;
-    List<ARRaycastHit> hitResults = new List<ARRaycastHit>();
-    RenderTexture capturedTex;
-    RenderTexture humanTex;
+    RenderTexture capturedTex, occlusionTex;
+
     bool saved = false;
     float FovTanValue = 1.0f;
     [SerializeField]
@@ -27,8 +25,8 @@ public class ColorfulShadow : MonoBehaviour
 
     void Start()
     {
-        raycastManager = GetComponent<ARRaycastManager>();
         capturedTex = new RenderTexture(Screen.width, Screen.height, 0);
+        occlusionTex = new RenderTexture(Screen.width, Screen.height, 0);
         /*
         [4.1.3] - 2021-01-05 - Changes
         The ARCameraBackground component now sets the camera's field of view. Because the ARCameraBackground already overrides the camera's projection matrix, this has no effect on ARFoundation. However, any code that reads the camera's fieldOfView property will now read the correct value.
@@ -40,8 +38,12 @@ public class ColorfulShadow : MonoBehaviour
 
     public void SaveTex()
     {
-        Graphics.Blit(null, capturedTex, arCamBg.material);
-        Graphics.Blit(arHumanOcc.humanStencilTexture, capturedTex);
+        if (arCamBg.material != null)
+        {
+            // RenderTextureに deep copy
+            Graphics.Blit(null, capturedTex, arCamBg.material);
+            Graphics.Blit(arOccBg.humanStencilTexture, occlusionTex);
+        }
     }
 
     void Update()
@@ -56,11 +58,11 @@ public class ColorfulShadow : MonoBehaviour
                 float aspect = capturedTex.width / (float)capturedTex.height;
                 float height = planeDistance * FovTanValue * 2;
                 float width = height * aspect;
-                plane.transform.localScale = new Vector3(height, width, 1);
+                plane.transform.localScale = new Vector3(width, height, 1);
                 var mat = plane.GetComponentInChildren<Renderer>().material;
-                mat.mainTexture = capturedTex;
-                plane.transform.Rotate(0, 0, -90);
-                plane.transform.Rotate(180, 0, 0);
+
+                mat.SetTexture("_MainTex", capturedTex);
+                mat.SetTexture("_MaskTex", occlusionTex);
             }
         }
     }
